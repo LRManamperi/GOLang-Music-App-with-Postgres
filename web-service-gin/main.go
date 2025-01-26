@@ -16,6 +16,8 @@ type album struct {
 
 func main() {
 	router := gin.Default()
+	// Apply the CORS middleware
+	router.Use(CORSMiddleware())
 	router.GET("/albums", getAlbums)
 	router.GET("/albums/:id", getAlbumByID)
 	router.POST("/albums", postAlbums)
@@ -23,11 +25,31 @@ func main() {
 	router.Run("localhost:8080")
 }
 
+// CORS middleware
+func CORSMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*") // Allow all origins
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization")
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(http.StatusNoContent)
+			return
+		}
+		c.Next()
+	}
+}
+
 // albums slice to seed record album data.
 var albums = []album{
 	{ID: "1", Title: "Blue Train", Artist: "John Coltrane", Price: 56.99},
 	{ID: "2", Title: "Jeru", Artist: "Gerry Mulligan", Price: 17.99},
 	{ID: "3", Title: "Sarah Vaughan and Clifford Brown", Artist: "Sarah Vaughan", Price: 39.99},
+	{ID: "4", Title: "Mingus Ah Um", Artist: "Charles Mingus", Price: 28.99},
+	{ID: "5", Title: "Kind of Blue", Artist: "Miles Davis", Price: 32.99},
+	{ID: "6", Title: "The Cats", Artist: "Tommy Flanagan", Price: 23.99},
+	{ID: "7", Title: "The Shape of Jazz to Come", Artist: "Ornette Coleman", Price: 19.99},
+	{ID: "8", Title: "Giant Steps", Artist: "John Coltrane", Price: 54.99},
+	{ID: "9", Title: "A Love Supreme", Artist: "John Coltrane", Price: 68.99},
 }
 
 // getAlbums responds with the list of all albums as JSON.
