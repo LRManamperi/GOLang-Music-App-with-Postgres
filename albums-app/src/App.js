@@ -2,9 +2,11 @@ import React from "react";
 import AlbumList from "./components/AlbumList";
 import AlbumForm from "./components/AlbumForm";
 import Search from "./components/Search";
-import { Container, Typography, Box, Paper, CssBaseline } from "@mui/material";
-import MusicNoteIcon from "@mui/icons-material/MusicNote"; // Correct import
+import { Container, Typography, Box, Paper, CssBaseline, Grid } from "@mui/material";
+import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import bg from "./bg.jpg";
+import logo from "./logo.png";
+import Header from "./components/Header";
 
 function App() {
   return (
@@ -18,92 +20,47 @@ function App() {
           minHeight: "100vh",
           display: "flex",
           flexDirection: "column",
+          alignItems: "center",
           justifyContent: "center",
-        }}
-      >
-       <Container
-        maxWidth="md"
-        sx={{
-          fontFamily: "'Poppins', sans-serif",
-          backgroundColor: "#f9f9f9",
-          borderRadius: "15px",
-          boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
           padding: "20px",
-          marginTop: "30px",
-          marginBottom: "30px",
-          background: "linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)",
         }}
       >
-        {/* search */} 
-        <Box
-          sx={{
-            textAlign: "center",
-            marginBottom: "30px",
-            color: "#fff",
-          }}
-        >
-          <MusicNoteIcon sx={{ fontSize: "4rem", color: "#fff" }} /> {/* Correct icon usage */}
-          <Typography
-            variant="h2"
-            sx={{
-              fontWeight: "bold",
-              fontSize: "2.5rem",
-              marginBottom: "10px",
-              color: "#fff",
-            }}
+        <Header />
+        {/* Top Section: Logo and Search Bar */}
+        <Container maxWidth="md" sx={{ mb: 4 }}
           >
-            Search Albums
-          </Typography>
-          <Typography variant="h5" sx={{ color: "#fff" }}>
-            Find your favorite music
-          </Typography>
-        </Box>
-        <Search />
-        </Container>
-      <Container
-        maxWidth="md"
-        sx={{
-          fontFamily: "'Poppins', sans-serif",
-          backgroundColor: "#f9f9f9",
-          borderRadius: "15px",
-          boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
-          padding: "20px",
-          marginTop: "30px",
-          marginBottom: "30px",
-          background: "linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)",
-        }}
-      >
-        {/* Header */}
-        <Box
-          sx={{
-            textAlign: "center",
-            marginBottom: "30px",
-            color: "#fff",
-          }}
-        >
-          <MusicNoteIcon sx={{ fontSize: "4rem", color: "#fff" }} /> {/* Correct icon usage */}
-          <Typography
-            variant="h2"
-            sx={{
-              fontWeight: "bold",
-              fontSize: "2.5rem",
-              marginBottom: "10px",
-              color: "#fff",
-            }}
-          >
-            Albums Management
-          </Typography>
-          <Typography variant="h5" sx={{ color: "#fff" }}>
-            Effortlessly manage your music collection
-          </Typography>
-        </Box>
+          {/* <Grid container spacing={2} alignItems="center" sx={{ mb: 4 }}>
+            {/* Logo on the Right */}
+            {/* <Grid item xs={6}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <img
+                  src={logo}
+                  alt="Logo"
+                  style={{ width: "300px", height: "auto" }}
+                />
+              </Box>
+            </Grid> */} 
 
-        {/* Main Content */}
-        <Box
+            {/* Search Bar on the Left */}
+              <Search />
+
+        </Container>
+
+        {/* Bottom Section: AlbumForm and AlbumList */}
+        <Container
+          maxWidth="md"
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "20px",
+            fontFamily: "'Poppins', sans-serif",
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            borderRadius: "15px",
+            boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+            padding: "20px",
+            marginBottom: "20px"
           }}
         >
           {/* Form Section */}
@@ -113,6 +70,7 @@ function App() {
               padding: "20px",
               borderRadius: "10px",
               backgroundColor: "rgba(255, 255, 255, 0.9)",
+              mb: 4,
             }}
           >
             <Typography
@@ -124,16 +82,24 @@ function App() {
                 display: "flex",
                 alignItems: "center",
                 gap: "10px",
-                fontSize: "1.5rem", 
+                fontSize: "1.5rem",
               }}
             >
-              <MusicNoteIcon sx={{ fontSize: "2rem" }} /> {/* Correct icon usage */}
+              <MusicNoteIcon sx={{ fontSize: "2rem" }} />
               Add a New Album
             </Typography>
             <AlbumForm />
           </Paper>
-
+          </Container>
           {/* List Section */}
+          <Container maxWidth="md"
+            sx={{
+            fontFamily: "'Poppins', sans-serif",
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            borderRadius: "15px",
+            boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+            padding: "20px",
+          }}>
           <Paper
             elevation={3}
             sx={{
@@ -154,12 +120,12 @@ function App() {
                 fontSize: "1.5rem",
               }}
             >
-              <MusicNoteIcon sx={{ fontSize: "2rem" }} /> {/* Correct icon usage */}
+              <MusicNoteIcon sx={{ fontSize: "2rem" }} />
               Your Albums
             </Typography>
             <AlbumList />
           </Paper>
-        </Box>
+        </Container>
 
         {/* Footer */}
         <Box
@@ -168,13 +134,13 @@ function App() {
             marginTop: "30px",
             paddingTop: "20px",
             borderTop: "1px solid rgba(255, 255, 255, 0.3)",
+            color: "#fff",
           }}
         >
-          <Typography variant="body1" sx={{ color: "#fff" }}>
+          <Typography variant="body1">
             © 2025 Album Manager. All rights reserved.
           </Typography>
         </Box>
-      </Container>
       </Box>
     </>
   );
