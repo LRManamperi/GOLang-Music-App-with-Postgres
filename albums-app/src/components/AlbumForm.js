@@ -89,6 +89,7 @@ const AlbumForm = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
+                color="red"
                 sx={{ mt: 2, height: "56px" }} // Adjust height to match TextField
               >
                 Add Album

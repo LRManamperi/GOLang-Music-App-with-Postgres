@@ -1,6 +1,7 @@
 import React from "react";
 import AlbumList from "./components/AlbumList";
 import AlbumForm from "./components/AlbumForm";
+import Search from "./components/Search";
 import { Container, Typography, Box, Paper, CssBaseline } from "@mui/material";
 import MusicNoteIcon from "@mui/icons-material/MusicNote"; // Correct import
 import bg from "./bg.jpg";
@@ -20,6 +21,45 @@ function App() {
           justifyContent: "center",
         }}
       >
+       <Container
+        maxWidth="md"
+        sx={{
+          fontFamily: "'Poppins', sans-serif",
+          backgroundColor: "#f9f9f9",
+          borderRadius: "15px",
+          boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+          padding: "20px",
+          marginTop: "30px",
+          marginBottom: "30px",
+          background: "linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)",
+        }}
+      >
+        {/* search */} 
+        <Box
+          sx={{
+            textAlign: "center",
+            marginBottom: "30px",
+            color: "#fff",
+          }}
+        >
+          <MusicNoteIcon sx={{ fontSize: "4rem", color: "#fff" }} /> {/* Correct icon usage */}
+          <Typography
+            variant="h2"
+            sx={{
+              fontWeight: "bold",
+              fontSize: "2.5rem",
+              marginBottom: "10px",
+              color: "#fff",
+            }}
+          >
+            Search Albums
+          </Typography>
+          <Typography variant="h5" sx={{ color: "#fff" }}>
+            Find your favorite music
+          </Typography>
+        </Box>
+        <Search />
+        </Container>
       <Container
         maxWidth="md"
         sx={{
