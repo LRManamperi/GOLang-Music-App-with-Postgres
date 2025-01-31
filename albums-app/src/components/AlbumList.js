@@ -6,7 +6,7 @@ const AlbumList = () => {
 
   useEffect(() => {
     axios
-  .get("http://localhost:8080/albums")
+  .get("http://localhost:8082/albums")
   .then((response) => {
     console.log(response.data); // Log the response to debug
     setAlbums(response.data);  // Set the state with the fetched data
