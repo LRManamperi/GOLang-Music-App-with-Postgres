@@ -41,7 +41,7 @@ const AlbumList = () => {
 
   return (
     <Container maxWidth="md">
-      <Paper elevation={3} sx={{ padding: 4, marginTop: 4 }}>
+      <Paper elevation={3} sx={{ padding: 4, marginTop: 4 }} width="100%">
         <Typography variant="h4" align="center" gutterBottom>
           <MusicNoteIcon sx={{ fontSize: "2rem", verticalAlign: "middle", mr: 1 }} />
           Your Albums
