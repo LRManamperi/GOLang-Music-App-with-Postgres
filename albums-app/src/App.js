@@ -1,86 +1,183 @@
 import React from "react";
 import AlbumList from "./components/AlbumList";
 import AlbumForm from "./components/AlbumForm";
+import Search from "./components/Search";
+import { Container, Typography, Box, Paper, CssBaseline } from "@mui/material";
+import MusicNoteIcon from "@mui/icons-material/MusicNote"; // Correct import
+import bg from "./bg.jpg";
 
 function App() {
   return (
-    <div style={styles.container}>
-      <header style={styles.header}>
-        <h1 style={styles.title}>Albums Management</h1>
-        <p style={styles.subtitle}>Effortlessly manage your music collection</p>
-      </header>
-      <main style={styles.main}>
-        <div style={styles.formContainer}>
-          <h2 style={styles.sectionTitle}>Add a New Album</h2>
-          <AlbumForm />
-        </div>
-        <div style={styles.listContainer}>
-          <h2 style={styles.sectionTitle}>Your Albums</h2>
-          <AlbumList />
-        </div>
-      </main>
-      <footer style={styles.footer}>
-        <p style={styles.footerText}>© 2025 Album Manager. All rights reserved.</p>
-      </footer>
-    </div>
+    <>
+      <CssBaseline /> {/* Normalize CSS */}
+      <Box
+        sx={{
+          backgroundImage: `url(${bg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+       <Container
+        maxWidth="md"
+        sx={{
+          fontFamily: "'Poppins', sans-serif",
+          backgroundColor: "#f9f9f9",
+          borderRadius: "15px",
+          boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+          padding: "20px",
+          marginTop: "30px",
+          marginBottom: "30px",
+          background: "linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)",
+        }}
+      >
+        {/* search */} 
+        <Box
+          sx={{
+            textAlign: "center",
+            marginBottom: "30px",
+            color: "#fff",
+          }}
+        >
+          <MusicNoteIcon sx={{ fontSize: "4rem", color: "#fff" }} /> {/* Correct icon usage */}
+          <Typography
+            variant="h2"
+            sx={{
+              fontWeight: "bold",
+              fontSize: "2.5rem",
+              marginBottom: "10px",
+              color: "#fff",
+            }}
+          >
+            Search Albums
+          </Typography>
+          <Typography variant="h5" sx={{ color: "#fff" }}>
+            Find your favorite music
+          </Typography>
+        </Box>
+        <Search />
+        </Container>
+      <Container
+        maxWidth="md"
+        sx={{
+          fontFamily: "'Poppins', sans-serif",
+          backgroundColor: "#f9f9f9",
+          borderRadius: "15px",
+          boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+          padding: "20px",
+          marginTop: "30px",
+          marginBottom: "30px",
+          background: "linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)",
+        }}
+      >
+        {/* Header */}
+        <Box
+          sx={{
+            textAlign: "center",
+            marginBottom: "30px",
+            color: "#fff",
+          }}
+        >
+          <MusicNoteIcon sx={{ fontSize: "4rem", color: "#fff" }} /> {/* Correct icon usage */}
+          <Typography
+            variant="h2"
+            sx={{
+              fontWeight: "bold",
+              fontSize: "2.5rem",
+              marginBottom: "10px",
+              color: "#fff",
+            }}
+          >
+            Albums Management
+          </Typography>
+          <Typography variant="h5" sx={{ color: "#fff" }}>
+            Effortlessly manage your music collection
+          </Typography>
+        </Box>
+
+        {/* Main Content */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "20px",
+          }}
+        >
+          {/* Form Section */}
+          <Paper
+            elevation={3}
+            sx={{
+              padding: "20px",
+              borderRadius: "10px",
+              backgroundColor: "rgba(255, 255, 255, 0.9)",
+            }}
+          >
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: "bold",
+                marginBottom: "20px",
+                color: "#333",
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                fontSize: "1.5rem", 
+              }}
+            >
+              <MusicNoteIcon sx={{ fontSize: "2rem" }} /> {/* Correct icon usage */}
+              Add a New Album
+            </Typography>
+            <AlbumForm />
+          </Paper>
+
+          {/* List Section */}
+          <Paper
+            elevation={3}
+            sx={{
+              padding: "20px",
+              borderRadius: "10px",
+              backgroundColor: "rgba(255, 255, 255, 0.9)",
+            }}
+          >
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: "bold",
+                marginBottom: "20px",
+                color: "#333",
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                fontSize: "1.5rem",
+              }}
+            >
+              <MusicNoteIcon sx={{ fontSize: "2rem" }} /> {/* Correct icon usage */}
+              Your Albums
+            </Typography>
+            <AlbumList />
+          </Paper>
+        </Box>
+
+        {/* Footer */}
+        <Box
+          sx={{
+            textAlign: "center",
+            marginTop: "30px",
+            paddingTop: "20px",
+            borderTop: "1px solid rgba(255, 255, 255, 0.3)",
+          }}
+        >
+          <Typography variant="body1" sx={{ color: "#fff" }}>
+            © 2025 Album Manager. All rights reserved.
+          </Typography>
+        </Box>
+      </Container>
+      </Box>
+    </>
   );
 }
-
-const styles = {
-  container: {
-    fontFamily: "'Arial', sans-serif",
-    margin: "0 auto",
-    maxWidth: "1000px",
-    padding: "20px",
-    borderRadius: "10px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    backgroundColor: "lightblue",
-  },
-  header: {
-    textAlign: "center",
-    marginBottom: "30px",
-  },
-  title: {
-    fontSize: "2.5rem",
-    color: "#333",
-    marginBottom: "5px",
-  },
-  subtitle: {
-    fontSize: "1.2rem",
-    color: "#777",
-  },
-  main: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "20px",
-  },
-  formContainer: {
-    padding: "15px",
-    borderRadius: "8px",
-    backgroundColor: "#fff",
-    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-  },
-  listContainer: {
-    padding: "15px",
-    borderRadius: "8px",
-    backgroundColor: "#fff",
-    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-  },
-  sectionTitle: {
-    fontSize: "1.5rem",
-    color: "#333",
-    marginBottom: "15px",
-  },
-  footer: {
-    textAlign: "center",
-    marginTop: "30px",
-    paddingTop: "10px",
-    borderTop: "1px solid #ddd",
-  },
-  footerText: {
-    color: "#888",
-    fontSize: "0.9rem",
-  },
-};
 
 export default App;
