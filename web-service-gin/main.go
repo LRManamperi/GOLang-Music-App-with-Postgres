@@ -227,6 +227,8 @@ func main() {
 	router.POST("/albums", postAlbums)
 	router.POST("/signup", signup)
 	router.POST("/login", login)
+	router.PUT("/albums/:id", updateAlbum)
+	router.DELETE("/albums/:id", deleteAlbum)
 
 	router.Run("localhost:8082")
 }
@@ -406,4 +408,35 @@ func login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"token": token})
+}
+
+// Update album details
+func updateAlbum(c *gin.Context) {
+    id := c.Param("id")
+    var updatedAlbum album
+    if err := c.ShouldBindJSON(&updatedAlbum); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+        return
+    }
+
+    _, err := db.Exec("UPDATE albums SET title=$1, artist=$2, price=$3 WHERE id=$4", updatedAlbum.Title, updatedAlbum.Artist, updatedAlbum.Price, id)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update album"})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"message": "Album updated successfully"})
+}
+
+// Delete album
+func deleteAlbum(c *gin.Context) {
+    id := c.Param("id")
+
+    _, err := db.Exec("DELETE FROM albums WHERE id=$1", id)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete album"})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"message": "Album deleted successfully"})
 }

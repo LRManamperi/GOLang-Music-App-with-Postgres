@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Card, CardContent, Typography, Grid, Container, Button, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 
 const AlbumList = () => {
   const [albums, setAlbums] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3; // Show 3 albums per page
+  const itemsPerPage = 4; // Show 3 albums per page
+  const navigate = useNavigate(); // useNavigate hook for navigation
 
   useEffect(() => {
     axios
@@ -25,6 +27,11 @@ const AlbumList = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentAlbums = albums.slice(indexOfFirstItem, indexOfLastItem);
 
+  // Function to navigate to SingleAlbum page when album card is clicked
+  const handleAlbumClick = (albumId) => {
+    navigate(`/album/${albumId}`);
+  };
+
   return (
     <Container>
       <Typography variant="h4" gutterBottom align="center" sx={{ marginTop: 4 }}>
@@ -35,7 +42,10 @@ const AlbumList = () => {
       <Grid container spacing={3}>
         {currentAlbums.map((album) => (
           <Grid item key={album.id} xs={12} sm={6} md={4}>
-            <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+            <Card
+              sx={{ height: "100%", display: "flex", flexDirection: "column" }}
+              onClick={() => handleAlbumClick(album.id)} // Handle album card click
+            >
               <CardContent sx={{ flexGrow: 1 }}>
                 <Typography variant="h6" component="div">
                   {album.title}
