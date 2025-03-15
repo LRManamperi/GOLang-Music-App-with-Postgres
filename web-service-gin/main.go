@@ -178,10 +178,13 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"time"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
+	"github.com/golang-jwt/jwt/v4"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // album represents an album record.
@@ -190,6 +193,8 @@ type album struct {
 	Title  string  `json:"title"`
 	Artist string  `json:"artist"`
 	Price  float64 `json:"price"`
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
 }
 
 var db *sql.DB
@@ -220,6 +225,8 @@ func main() {
 	router.GET("/albums", getAlbums)
 	router.GET("/albums/:id", getAlbumByID)
 	router.POST("/albums", postAlbums)
+	router.POST("/signup", signup)
+	router.POST("/login", login)
 
 	router.Run("localhost:8082")
 }
@@ -309,3 +316,94 @@ func getAlbumByID(c *gin.Context) {
 	c.JSON(http.StatusOK, a)
 }
 
+
+// User struct for request body
+type User struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+
+// In-memory user storage (Replace with DB in production)
+var users = make(map[string]string)
+
+// Secret key for JWT
+var jwtSecret = []byte("secret_key")
+
+// Hash password using bcrypt
+func hashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	return string(bytes), err
+}
+
+// Verify password
+func checkPasswordHash(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
+}
+
+// Generate JWT token
+func generateToken(username string) (string, error) {
+	claims := jwt.MapClaims{
+		"username": username,
+		"exp":      time.Now().Add(time.Hour * 24).Unix(), // Token expires in 24 hours
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString(jwtSecret)
+}
+
+// Signup handler
+func signup(c *gin.Context) {
+	var user User
+
+	// Bind JSON request
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+		return
+	}
+
+	// Check if the username already exists
+	if _, exists := users[user.Username]; exists {
+		c.JSON(http.StatusConflict, gin.H{"error": "Username already taken"})
+		return
+	}
+
+	// Hash the password
+	hashedPassword, err := hashPassword(user.Password)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
+		return
+	}
+
+	// Store the user
+	users[user.Username] = hashedPassword
+
+	c.JSON(http.StatusCreated, gin.H{"message": "Signup successful"})
+}
+
+// Login handler
+func login(c *gin.Context) {
+	var user User
+
+	// Bind JSON request
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+		return
+	}
+
+	// Check if the user exists
+	storedPassword, exists := users[user.Username]
+	if !exists || !checkPasswordHash(user.Password, storedPassword) {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+		return
+	}
+
+	// Generate JWT token
+	token, err := generateToken(user.Username)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not generate token"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"token": token})
+}
